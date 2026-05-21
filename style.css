@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #1a1a2e;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#screen-home, #screen-game, #screen-end {
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+h1 { font-size: 3rem; color: #f5a623; margin-bottom: 30px; }
+h2 { font-size: 1.8rem; color: #f5a623; margin-bottom: 20px; }
+
+#players-section, #game-selection { margin-bottom: 30px; }
+
+#player-input, #game-selector {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 2px solid #f5a623;
+  border-radius: 8px;
+  background-color: #16213e;
+  color: #ffffff;
+  outline: none;
+}
+
+#player-input { width: 200px; }
+#game-selector { width: 100%; margin-bottom: 15px; cursor: pointer; }
+
+#player-input:focus, #game-selector:focus { border-color: #ffffff; }
+
+button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 8px;
+  background-color: #f5a623;
+  color: #1a1a2e;
+  transition: transform 0.1s, background-color 0.2s;
+}
+
+button:hover { background-color: #e8942e; transform: scale(1.05); }
+button:active { transform: scale(0.97); }
+
+#players-list { list-style: none; margin-top: 15px; }
+
+#players-list li {
+  background-color: #16213e;
+  border: 1px solid #f5a623;
+  border-radius: 8px;
+  padding: 8px 15px;
+  margin: 6px auto;
+  max-width: 250px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#players-list li button {
+  background: none; border: none; color: #ff4d4d; font-size: 1rem; padding: 0; margin: 0;
+}
+#players-list li button:hover { transform: scale(1.2); }
+
+#game-card {
+  background-color: #16213e;
+  border: 2px solid #f5a623;
+  border-radius: 16px;
+  padding: 40px 30px;
+  margin: 30px auto;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game-text { font-size: 1.3rem; line-height: 1.6; }
+#screen-end p { font-size: 1.2rem; margin-bottom: 20px; color: #cccccc; }
+
+/* Bouton Quitter */
+#btn-quit {
+  background-color: #ff4d4d;
+  color: #ffffff;
+}
+
+#btn-quit:hover {
+  background-color: #cc0000;
+}
+
+#game-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ===== CHRONOMÈTRE 7 SECONDES ===== */
+#timer-display {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #ff4d4d;
+  margin-bottom: 15px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}

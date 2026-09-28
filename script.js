@@ -15,6 +15,10 @@ const btnNext      = document.getElementById("btn-next");
 const btnRestart   = document.getElementById("btn-restart");
 const btnQuit      = document.getElementById("btn-quit");
 const timerDisplay = document.getElementById("timer-display");
+const btnGo        = document.getElementById("btn-go");
+const screenUndercover = document.getElementById("screen-undercover");
+const ucCard       = document.getElementById("uc-card");
+const btnUcQuit    = document.getElementById("btn-uc-quit");
 
 let players = [];
 let gameQueue = [];
@@ -26,8 +30,8 @@ const questionsCercle = [
   "A tour de rôle, chaque joueur ajoute un mot pour former une phrase. Si elle devient incohérente, le dernier à avoir joué perd et prend 1 toz.",
   "Si quelqu'un dit 'pute', c'est le joueur suivant qui perd et prend 1 toz.",
   "Tous les mecs doivent donner leur body count ou prendre 3 toz.",
-  "{joueur1}, appelle ton/ta crush ou prend 6 toz.",
-  "{joueur1}, envoie une photo sexy de toi à une personne ici ou prend 5 toz.",
+  "{joueur1}, appelle ton/ta crush ou prends 6 toz.",
+  "{joueur1}, envoie une photo sexy de toi à une personne ici ou prends 5 toz.",
   "{joueur1}, choisis un partenaire : vous prenez tous les TOZ ensemble. Déjà en duo ? Ajoute quelqu'un à votre groupe.",
   "Toutes les filles qui ont déjà embrassé {joueur1} prennent 6 toz.",
   "{joueur1}, Action ou vérité ? {joueur2} choisit pour toi. Tu peux refuser et prendre 1 toz.",
@@ -38,33 +42,33 @@ const questionsCercle = [
   "{joueur1}, laisse {joueur2} te lancer un 'Pour combien ?'",
   "{joueur1}, ajoute la règle de ton choix.",
   "Tous les mecs prennent 5 toz.",
-  "{joueur1}, parle avec une voix suave jusqu'à la fin de la partie ou prend 1 toz.",
-  "{joueur1}, montre tes fesses nues ou prend 4 toz.",
-  "{joueur1}, échange ton bas avec {joueur2} ou prend 7 toz.",
-  "{joueur1}, enlève ton bas jusqu'à la fin de la partie ou prend 1 toz.",
+  "{joueur1}, parle avec une voix suave jusqu'à la fin de la partie ou prends 1 toz.",
+  "{joueur1}, montre tes fesses nues ou prends 4 toz.",
+  "{joueur1}, échange ton bas avec {joueur2} ou prends 7 toz.",
+  "{joueur1}, enlève ton bas jusqu'à la fin de la partie ou prends 1 toz.",
   "{joueur1}, ferme les yeux et laisse un autre joueur te caresser l'intérieur de la cuisse. Si tu devines qui c'est, tu distribues 7 toz, sinon tu les prends.",
   "Thème : ce qui t'excite au lit. Le premier qui ne trouve pas ou qui répète prend 4 toz.",
   "Tous les mecs doivent noter le physique de {joueur1} sur 10 ou prendre 2 toz.",
-  "Rapport sexuel sous la douche : surcoté ou sous-côté ? Après 3 secondes, levez le bras pour le premier choix, baissez-le pour le 2e. La majorité l'emporte, les perdants prennent 1 toz.",
+  "Rapport sexuel sous la douche : surcoté ou sous-coté ? Après 3 secondes, levez le bras pour le premier choix, baissez-le pour le 2e. La majorité l'emporte, les perdants prennent 1 toz.",
   "{joueur1}, dis un mot. Chaque personne doit dire à tour de rôle un mot qui rime avec. Le premier qui ne trouve pas prend 4 toz.",
-  "{joueur1}, embrasse la personne en face de toi ou prend 4 toz."
+  "{joueur1}, embrasse la personne en face de toi ou prends 4 toz."
 ];
 
 // ===== BANQUE DE QUESTIONS : JE N'AI JAMAIS HOT =====
 const questionsJNJ = [
-  "Je n'ai jamais eu de rapport sexuels avant mes 15 ans.",
+  "Je n'ai jamais eu de rapports sexuels avant mes 15 ans.",
   "Je n'ai jamais refusé de sortir avec quelqu'un à cause de son physique.",
   "Je n'ai jamais griffé ou mordillé mon/ma partenaire pendant un rapport sexuel.",
   "Je n'ai jamais été polygame.",
   "Je n'ai jamais fumé de chicha.",
-  "Je n'ai jamais retiré le soutin-gorge d'une fille à une main.",
+  "Je n'ai jamais retiré le soutien-gorge d'une fille à une main.",
   "Je n'ai jamais eu de rapport sexuel dans un jacuzzi.",
   "Je n'ai jamais couru tout(e) nu(e) dans la rue.",
   "Je n'ai jamais aimé me faire mordre pendant un rapport sexuel.",
   "Je n'ai jamais eu de rapport sexuel avec l'ex de mon/ma meilleur(e) ami(e).",
   "Je n'ai jamais couché avec plus de 5 personnes.",
   "Je n'ai jamais utilisé de lubrifiant.",
-  "Je n'ai jamais couché avec qeulqu'un qui ne parlait pas me langue.",
+  "Je n'ai jamais couché avec quelqu'un qui ne parlait pas ma langue.",
   "Je n'ai jamais fait l'amour de façon sauvage.",
   "Je n'ai jamais été dominé(e).",
   "Je n'ai jamais couché avec quelqu'un ici présent.",
@@ -158,7 +162,7 @@ const questionsPicolo = [
   { type: "defi", text: "{player}, change ta photo de profil pendant 10 minutes avec une photo choisie par le groupe. Sinon, 3 gorgées." },
   { type: "defi", text: "{player}, mange quelque chose d'étrange dans le frigo. Sinon, tu bois." },
   { type: "defi", text: "{player}, fais une démonstration de danse pendant 20 secondes. Le groupe note sur 10 : en dessous de 5, tu bois." },
-  { type: "defi", text: "{player}, dis 5 qualités de chaque personne du groupe. Si tu séches sur quelqu'un, tu bois." },
+  { type: "defi", text: "{player}, dis 5 qualités de chaque personne du groupe. Si tu sèches sur quelqu'un, tu bois." },
   { type: "defi", text: "{player}, poste un selfie sur Instagram avec la légende choisie par le groupe. Sinon, 4 gorgées." },
   { type: "defi", text: "{player}, reste sans sourire pendant 1 minute. Dès que tu souris, tu bois." },
   { type: "defi", text: "{player}, fais le plus beau saut en hauteur que tu peux. Le groupe décide si c'est impressionnant." },
@@ -216,7 +220,7 @@ const questionsPicolo = [
   { type: "tous", text: "Tous ceux qui ont déjà envoyé un texto à l'ex boivent." },
   { type: "tous", text: "Tous ceux qui ont déjà fait semblant de ne pas voir quelqu'un dans la rue boivent." },
   { type: "tous", text: "Tous ceux qui ont déjà menti à un médecin boivent." },
-  { type: "tous", text: "Tous ceux qui stalke leur ex sur les réseaux boivent." },
+  { type: "tous", text: "Tous ceux qui stalkent leur ex sur les réseaux boivent." },
   { type: "tous", text: "Tous ceux qui ont déjà triché à un examen boivent." },
   { type: "tous", text: "Tous ceux qui ont déjà mangé directement dans une casserole boivent." },
   { type: "tous", text: "Tous ceux qui ont déjà utilisé la maladie comme excuse pour ne pas sortir boivent." },
@@ -229,7 +233,7 @@ const questionsPicolo = [
   { type: "tous", text: "Tous ceux qui ont déjà regardé une série en entier en un week-end boivent." },
   { type: "tous", text: "Tous ceux qui ont déjà répondu 'ça va' quand ça n'allait pas boivent." },
   { type: "tous", text: "Tous ceux qui ont déjà fait du ghosting boivent." },
-  { type: "tous", text: "Tous ceux qui ont un ami imaginaire eu enfant boivent (assumez !)." },
+  { type: "tous", text: "Tous ceux qui ont un ami imaginaire étant enfant boivent (assumez !)." },
   { type: "tous", text: "Tous ceux qui ont déjà googlé leurs propres symptômes et pensé avoir une maladie grave boivent." },
   { type: "tous", text: "Tous ceux qui ont déjà menti sur leur âge boivent." },
   { type: "tous", text: "Tous ceux qui ont déjà raté leur sortie de métro parce qu'ils étaient sur leur téléphone boivent." },
@@ -291,6 +295,77 @@ const questionsPicolo = [
   { type: "defi", text: "{player}, dessine un portrait de la personne à ta droite en 60 secondes. Le groupe note. En dessous de 4/10, tu bois." }
 ];
 
+
+// ===== BANQUE DE QUESTIONS : LE PREMIER QUI... =====
+// La récompense (gagnant / dernier) est ajoutée automatiquement à chaque carte.
+const questionsPremier = [
+  // --- Objets à ramener ---
+  "Le premier qui ramène une chaussette qui n'est pas la sienne.",
+  "Le premier qui ramène un objet rose.",
+  "Le premier qui ramène une canette vide.",
+  "Le premier qui ramène un objet qui commence par la lettre P.",
+  "Le premier qui ramène un objet plus grand que lui.",
+  "Le premier qui ramène un bouchon.",
+  "Le premier qui ramène une feuille d'arbre.",
+  "Le premier qui ramène un caillou.",
+  "Le premier qui ramène quelque chose de froid.",
+  "Le premier qui ramène un briquet.",
+  "Le premier qui ramène une pièce de monnaie.",
+  "Le premier qui ramène du papier toilette.",
+  "Le premier qui ramène un objet qui fait du bruit.",
+  "Le premier qui ramène trois objets de la même couleur.",
+  "Le premier qui ramène une chaussure qui n'est pas la sienne.",
+  "Le premier qui ramène un aliment (les chips comptent).",
+  "Le premier qui ramène un objet avec un logo de bière dessus.",
+  "Le premier qui ramène des lunettes de soleil et les met.",
+  "Le premier qui ramène une casquette ou un chapeau et le met.",
+  "Le premier qui ramène un truc qui brille.",
+  "Le premier qui ramène une brosse à dents.",
+  "Le premier qui ramène un gobelet rempli d'eau sans en renverser une goutte.",
+  "Le premier qui ramène une personne qui ne joue pas.",
+  "Le premier qui ramène un soutien-gorge.",
+  "Le premier qui ramène un caleçon ou une culotte (propre, par pitié).",
+  "Le premier qui ramène un préservatif.",
+  "Le premier qui ramène l'objet le plus inutile possible. Le groupe vote pour le gagnant.",
+  "Le premier qui ramène l'objet le plus moche qu'il trouve. Le groupe vote pour le gagnant.",
+  // --- Actions ---
+  "Le premier qui monte sur une chaise (ou un truc en hauteur).",
+  "Le premier qui touche un arbre et revient.",
+  "Le premier qui se met pieds nus.",
+  "Le premier qui s'allonge par terre.",
+  "Le premier qui fait un selfie avec quelqu'un qui ne joue pas.",
+  "Le premier qui fait un câlin à quelqu'un qui ne joue pas.",
+  "Le premier qui fait crier son prénom par 3 personnes en même temps.",
+  "Le premier qui trouve quelqu'un né le même mois que lui.",
+  "Le premier qui fait 10 pompes.",
+  "Le premier qui se fait porter sur le dos par quelqu'un.",
+  "Le premier qui échange son haut avec un autre joueur.",
+  "Le premier qui construit une pyramide de 6 gobelets.",
+  "Le premier qui se fait signer le bras par 3 personnes qui ne jouent pas.",
+  "Le premier qui envoie 'je t'aime' à un de ses parents (montre le message).",
+  "Le premier qui obtient un bisou sur la joue de quelqu'un qui ne joue pas.",
+  "Le premier qui retrouve le prénom du chauffeur du bus.",
+  "Le premier qui trouve une photo de lui d'il y a au moins 5 ans sur son téléphone.",
+  "Le premier qui se dessine une moustache (stylo, feutre, eye-liner, tout est permis).",
+  "{joueur1} crie un chiffre entre 1 et 5 : le premier qui ramène autant d'objets différents gagne.",
+  "{joueur1} choisit une couleur : le premier qui ramène un objet de cette couleur gagne.",
+  "{joueur1} choisit une lettre : le premier qui ramène un objet commençant par cette lettre gagne."
+];
+
+// ===== UNDERCOVER : PAIRES DE MOTS =====
+const undercoverPairs = [
+  ["Bière", "Cidre"], ["Vodka", "Gin"], ["Rhum", "Tequila"], ["Mojito", "Caïpirinha"],
+  ["Pastis", "Limoncello"], ["Jägermeister", "Get 27"], ["Champagne", "Prosecco"], ["Chouchen", "Hydromel"],
+  ["Kebab", "Tacos"], ["Pizza", "Burger"], ["Crêpe", "Galette"], ["Chips", "Cacahuètes"],
+  ["Camping", "Festival"], ["Tente", "Hamac"], ["Bus", "Train"], ["Plage", "Piscine"],
+  ["Gueule de bois", "Vomi"], ["Apéro", "After"], ["Boîte de nuit", "Bar"], ["Karaoké", "Blind test"],
+  ["Beer pong", "Flip cup"], ["Gobelet", "Verre"], ["Shot", "Cul sec"], ["Paillettes", "Confettis"],
+  ["Ex", "Crush"], ["Bisou", "Câlin"], ["Tinder", "Hinge"], ["Slip", "Caleçon"],
+  ["Instagram", "TikTok"], ["Netflix", "YouTube"], ["Police", "Pompier"], ["Douche", "Bain"],
+  ["Pirate", "Viking"], ["Chat", "Chien"], ["Soirée mousse", "Soirée pyjama"], ["Partiel", "Rattrapage"],
+  ["Prof", "Surveillant"], ["Lendemain de soirée", "Lundi matin"], ["Préservatif", "Pilule"], ["Doliprane", "Spasfon"]
+];
+
 // ===== FONCTIONS UTILITAIRES =====
 function shuffle(array) {
   const arr = [...array];
@@ -301,10 +376,19 @@ function shuffle(array) {
   return arr;
 }
 
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function normalize(str) {
+  return String(str).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
+}
+
 function showScreen(screenToShow) {
   screenHome.classList.add("hidden");
   screenGame.classList.add("hidden");
   screenEnd.classList.add("hidden");
+  screenUndercover.classList.add("hidden");
   screenToShow.classList.remove("hidden");
 }
 
@@ -314,7 +398,7 @@ function formatQuestion(text) {
   // Gère à la fois les anciens marqueurs {joueur} et les nouveaux {player}
   if (!text.includes("{joueur") && !text.includes("{player}")) return text;
 
-  const shuffledPlayers = shuffle(players);
+  const shuffledPlayers = shuffle(players).map(escapeHTML);
   let result = text;
 
   if (shuffledPlayers.length > 0) {
@@ -380,7 +464,19 @@ function startGame() {
   } else if (selectedMode === "picolo") {
     gameName.textContent = "Picolo 🦠";
     gameQueue = shuffle(questionsPicolo);
+  } else if (selectedMode === "premier") {
+    gameName.textContent = "Le Premier Qui... 🏃";
+    gameQueue = shuffle(questionsPremier);
+  } else if (selectedMode === "undercover") {
+    if (players.length < 3) {
+      alert("Il faut au moins 3 joueurs pour Undercover.");
+      return;
+    }
+    startUndercover();
+    return;
   }
+
+  btnGo.classList.toggle("hidden", selectedMode !== "premier");
 
   currentGameIndex = 0;
   showScreen(screenGame);
@@ -424,6 +520,13 @@ function displayCurrentGame() {
     const sips = Math.floor(Math.random() * 4) + 1;
     const pluriel = sips > 1 ? "s" : "";
     rawText += `<br><br><em>Ceux qui l'ont fait prennent ${sips} gorgée${pluriel} ! 🍺</em>`;
+  }
+
+  // Récompense aléatoire pour Le Premier Qui...
+  if (gameSelector.value === "premier") {
+    const win = Math.floor(Math.random() * 4) + 2;   // 2 à 5
+    const lose = Math.floor(Math.random() * 3) + 1;  // 1 à 3
+    rawText += `<br><br><span class="reward">🏆 Le gagnant distribue ${win} gorgées<br>🐢 Le dernier boit ${lose} gorgée${lose > 1 ? "s" : ""}</span>`;
   }
 
   // Algorithme de "casse" aléatoire pour Le Palmier
@@ -475,6 +578,221 @@ function quitGame() {
   showScreen(screenHome);
 }
 
+
+// ===== TOP DÉPART (Le Premier Qui...) =====
+function topDepart() {
+  clearInterval(timerInterval);
+  const steps = ["3", "2", "1", "GO ! 🏃"];
+  let i = 0;
+  timerDisplay.classList.remove("hidden");
+  timerDisplay.style.color = "#ff4d4d";
+  timerDisplay.textContent = steps[0];
+  timerInterval = setInterval(() => {
+    i++;
+    if (i < steps.length) {
+      timerDisplay.textContent = steps[i];
+      if (i === steps.length - 1) timerDisplay.style.color = "#4dff88";
+    } else {
+      clearInterval(timerInterval);
+      timerDisplay.classList.add("hidden");
+    }
+  }, 800);
+}
+
+// ===== UNDERCOVER =====
+let uc = null;
+
+function startUndercover() {
+  const n = players.length;
+  const nbUndercover = n >= 7 ? 2 : 1;
+  const nbWhite = n >= 5 ? 1 : 0;
+
+  const pair = undercoverPairs[Math.floor(Math.random() * undercoverPairs.length)];
+  const [civilWord, undercoverWord] = Math.random() < 0.5 ? pair : [pair[1], pair[0]];
+
+  const roles = shuffle([
+    ...Array(nbUndercover).fill("undercover"),
+    ...Array(nbWhite).fill("white"),
+    ...Array(n - nbUndercover - nbWhite).fill("civil")
+  ]);
+
+  uc = {
+    civilWord,
+    undercoverWord,
+    round: 1,
+    revealIndex: 0,
+    players: players.map((name, i) => ({ name, role: roles[i], alive: true }))
+  };
+
+  showScreen(screenUndercover);
+  renderUcPass();
+}
+
+function wordOf(p) {
+  if (p.role === "civil") return uc.civilWord;
+  if (p.role === "undercover") return uc.undercoverWord;
+  return null;
+}
+
+function roleLabel(role) {
+  return { civil: "Civil 🙂", undercover: "Undercover 🕵️", white: "Mr White 🤍" }[role];
+}
+
+function setUcCard(html, buttons) {
+  ucCard.innerHTML = `<div class="uc-text">${html}</div><div class="uc-buttons"></div>`;
+  const zone = ucCard.querySelector(".uc-buttons");
+  buttons.forEach(b => {
+    const btn = document.createElement("button");
+    btn.innerHTML = b.label;
+    if (b.className) btn.className = b.className;
+    btn.addEventListener("click", b.onClick);
+    zone.appendChild(btn);
+  });
+}
+
+// --- Phase 1 : chacun découvre son mot en se passant le téléphone ---
+function renderUcPass() {
+  const p = uc.players[uc.revealIndex];
+  setUcCard(
+    `<p class="uc-small">Joueur ${uc.revealIndex + 1} / ${uc.players.length}</p>
+     <p>📱 Passe le téléphone à</p>
+     <p class="uc-big">${escapeHTML(p.name)}</p>
+     <p class="uc-small">Les autres, on ne regarde pas l'écran !</p>`,
+    [{ label: "👀 C'est moi, voir mon mot", onClick: renderUcWord }]
+  );
+}
+
+function renderUcWord() {
+  const p = uc.players[uc.revealIndex];
+  const content = p.role === "white"
+    ? `<p class="uc-big">🤍 Mr White</p>
+       <p>Tu n'as pas de mot. Écoute les autres et bluffe.</p>
+       <p class="uc-small">Si tu te fais éliminer, tu pourras deviner le mot des civils pour gagner.</p>`
+    : `<p>Ton mot secret :</p><p class="uc-big">${escapeHTML(wordOf(p))}</p>
+       <p class="uc-small">Tu ne sais pas si tu es civil ou undercover...</p>`;
+
+  setUcCard(content, [{
+    label: "🙈 C'est retenu, cacher",
+    onClick: () => {
+      uc.revealIndex++;
+      if (uc.revealIndex < uc.players.length) renderUcPass();
+      else renderUcRound();
+    }
+  }]);
+}
+
+// --- Phase 2 : tour de parole + vote ---
+function renderUcRound() {
+  const alive = uc.players.filter(p => p.alive);
+  // Au 1er tour, Mr White ne commence jamais (trop dur)
+  const candidates = uc.round === 1 ? alive.filter(p => p.role !== "white") : alive;
+  const starter = candidates[Math.floor(Math.random() * candidates.length)];
+
+  setUcCard(
+    `<p class="uc-small">Tour ${uc.round}</p>
+     <p><strong>${escapeHTML(starter.name)}</strong> commence, puis on tourne.</p>
+     <p>Chacun dit <strong>UN seul mot</strong> pour décrire son mot secret.</p>
+     <p class="uc-small">Ensuite, débattez et votez à main levée. Qui éliminer ?</p>`,
+    alive.map(p => ({ label: `❌ ${escapeHTML(p.name)}`, className: "uc-vote", onClick: () => confirmElimination(p) }))
+  );
+}
+
+function confirmElimination(p) {
+  setUcCard(
+    `<p>Éliminer <strong>${escapeHTML(p.name)}</strong> ?</p>`,
+    [
+      { label: "✅ Oui", onClick: () => eliminate(p) },
+      { label: "↩️ Annuler", className: "btn-secondary", onClick: renderUcRound }
+    ]
+  );
+}
+
+function eliminate(p) {
+  p.alive = false;
+  const name = `<strong>${escapeHTML(p.name)}</strong>`;
+
+  if (p.role === "white") {
+    ucCard.innerHTML = `
+      <div class="uc-text">
+        <p class="uc-big">🤍 Mr White démasqué !</p>
+        <p>${name}, dernière chance : quel est le mot des civils ?</p>
+        <input type="text" id="uc-guess" placeholder="Ton mot..." autocomplete="off" />
+      </div>
+      <div class="uc-buttons"><button id="uc-guess-btn">🎯 Valider</button></div>`;
+    const input = document.getElementById("uc-guess");
+    const validate = () => {
+      if (normalize(input.value) === normalize(uc.civilWord)) {
+        endUndercover("white", p);
+      } else {
+        showElimResult(`❌ Raté ! Le mot était <strong>${escapeHTML(uc.civilWord)}</strong>.<br>${name} boit 3 gorgées.`);
+      }
+    };
+    document.getElementById("uc-guess-btn").addEventListener("click", validate);
+    input.addEventListener("keydown", e => { if (e.key === "Enter") validate(); });
+    input.focus();
+    return;
+  }
+
+  if (p.role === "undercover") {
+    showElimResult(`<p class="uc-big">🕵️ Undercover !</p>
+      ${name} était undercover, son mot était <strong>${escapeHTML(uc.undercoverWord)}</strong>.<br>
+      ${name} boit 3 gorgées.`);
+  } else {
+    showElimResult(`<p class="uc-big">😬 Raté...</p>
+      ${name} était civil (mot : <strong>${escapeHTML(uc.civilWord)}</strong>).<br>
+      ${name} boit 2 gorgées, et tous ceux qui ont voté pour l'éliminer aussi !`);
+  }
+}
+
+function showElimResult(html) {
+  const winner = checkUcWinner();
+  setUcCard(html, [{
+    label: winner ? "🏁 Voir les résultats" : "➡️ Tour suivant",
+    onClick: () => {
+      if (winner) endUndercover(winner);
+      else { uc.round++; renderUcRound(); }
+    }
+  }]);
+}
+
+function checkUcWinner() {
+  const alive = uc.players.filter(p => p.alive);
+  const civils = alive.filter(p => p.role === "civil").length;
+  const impostors = alive.length - civils;
+  if (impostors === 0) return "civils";
+  if (civils <= 1) return "impostors";
+  return null;
+}
+
+// --- Phase 3 : résultats ---
+function endUndercover(winner, whitePlayer) {
+  let title, drinks;
+  if (winner === "civils") {
+    title = "🙂 Les civils gagnent !";
+    drinks = "Tous les imposteurs (undercover et Mr White) boivent 3 gorgées.";
+  } else if (winner === "white") {
+    title = "🤍 Mr White a deviné !";
+    drinks = `${escapeHTML(whitePlayer.name)} gagne tout seul et distribue 5 gorgées. Tout le monde boit 1 gorgée pour la honte.`;
+  } else {
+    title = "🕵️ Les imposteurs gagnent !";
+    drinks = "Tous les civils boivent 2 gorgées. Les imposteurs distribuent 3 gorgées chacun.";
+  }
+
+  const recap = uc.players.map(p =>
+    `<li><strong>${escapeHTML(p.name)}</strong> : ${roleLabel(p.role)}${wordOf(p) ? ` (${escapeHTML(wordOf(p))})` : ""}</li>`
+  ).join("");
+
+  setUcCard(
+    `<p class="uc-big">${title}</p><p>${drinks}</p>
+     <p class="uc-small">Civils : ${escapeHTML(uc.civilWord)} · Undercover : ${escapeHTML(uc.undercoverWord)}</p>
+     <ul class="uc-recap">${recap}</ul>`,
+    [
+      { label: "🔄 Nouvelle manche", onClick: startUndercover },
+      { label: "🏠 Menu", className: "btn-secondary", onClick: () => showScreen(screenHome) }
+    ]
+  );
+}
+
 // ===== ÉVÉNEMENTS =====
 btnAddPlayer.addEventListener("click", addPlayer);
 playerInput.addEventListener("keydown", (e) => {
@@ -484,4 +802,6 @@ btnStart.addEventListener("click", startGame);
 btnNext.addEventListener("click", nextGame);
 
 if (btnQuit) btnQuit.addEventListener("click", quitGame);
+btnGo.addEventListener("click", topDepart);
+btnUcQuit.addEventListener("click", () => { uc = null; showScreen(screenHome); });
 if (btnRestart) btnRestart.addEventListener("click", () => showScreen(screenHome));

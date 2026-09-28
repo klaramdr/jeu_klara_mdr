@@ -97,30 +97,30 @@ const questions7Sec = [
 ];
 
 // ===== BANQUE DE QUESTIONS : LE PALMIER =====
+// Chaque valeur de carte = un mini-jeu. Les Rois remplissent le verre du milieu.
 const dictPalmier = {
-  "As": "{joueur1}, Cul sec ! Allez, on ne respire pas.",
-  "2": "{joueur1}, distribue 2 gorgées. Sois généreux.",
-  "3": "{joueur1}, distribue 3 gorgées.",
-  "4": "Four to the floor ! Pointez le doigt vers le bas. Le dernier boit.",
-  "5": "Five to the sky ! Levez le doigt en l'air. Le dernier boit.",
-  "6": "{joueur1}, commence 'Dans ma valise...' et ajoute un mot. Le premier qui foire la liste boit.",
-  "7": "{joueur1} est le Maître de la question. Quiconque te répond boit, sauf s'il te dit 'Ta gueule !'. (Valable jusqu'au prochain 7).",
-  "8": "{joueur1}, distribue 8 gorgées. La destruction d'amitiés commence.",
-  "9": "{joueur1}, 'J'ai déjà / Je n'ai jamais'. Raconte ta vie, ceux qui ont fait l'inverse de toi boivent.",
-  "10": "{joueur1} devient le Maître du freeze. Arrête de bouger à tout moment, le dernier à t'imiter boit.",
-  "Valet": "{joueur1}, trouve un Thème ! Le premier qui sèche ou répète boit.",
-  "Dame": "À la tienne tout le monde ! Une gorgée générale.",
-  "Roi": "{joueur1}, invente une règle ! Le pouvoir absolu."
+  "As": "🌊 <strong>CASCADE</strong><br>Tout le monde commence à boire en même temps, en partant de {joueur1}. Tu n'as le droit de t'arrêter que quand la personne à ta droite s'est arrêtée.",
+  "2": "🤫 <strong>OUI, QUI ?</strong><br>{joueur1}, chuchote à l'oreille de {joueur2} une question qui commence par « Qui... » (du genre « Qui ici a le pire ex ? »). {joueur2} répond à voix haute avec un prénom. La personne désignée peut boire 2 gorgées pour connaître la question... ou rester dans le doute.",
+  "3": "✊✋✌️ <strong>DUEL</strong><br>{joueur1}, défie qui tu veux en pierre-feuille-ciseaux, en 2 manches gagnantes. Le perdant boit 3 gorgées.",
+  "4": "👇 <strong>FOUR TO THE FLOOR</strong><br>Tout le monde touche le sol ! Le dernier boit 2 gorgées.",
+  "5": "☝️ <strong>FIVE TO THE SKY</strong><br>Tout le monde lève le doigt vers le ciel ! Le dernier boit 2 gorgées.",
+  "6": "💞 <strong>LE BINÔME</strong><br>{joueur1}, choisis ton binôme : jusqu'au prochain 6, chaque fois que l'un de vous boit, l'autre boit aussi.",
+  "7": "❓ <strong>MAÎTRE DES QUESTIONS</strong><br>{joueur1}, jusqu'au prochain 7, quiconque répond à une de tes questions boit une gorgée. Seule défense : répondre « Ta gueule ! ».",
+  "8": "🎤 <strong>RIMES</strong><br>{joueur1} dit un mot. À tour de rôle, chacun dit un mot qui rime. Le premier qui sèche ou répète boit 3 gorgées.",
+  "9": "✋ <strong>JE N'AI JAMAIS (3 DOIGTS)</strong><br>Tout le monde lève 3 doigts. À tour de rôle en partant de {joueur1}, chacun dit « Je n'ai jamais... ». Ceux qui l'ont fait baissent un doigt. Le premier à ne plus avoir de doigts boit 4 gorgées.",
+  "10": "🎯 <strong>THÈME</strong><br>{joueur1} choisit un thème (marques de capotes, ex de quelqu'un ici, positions...). Chacun son tour, le premier qui sèche ou répète boit 3 gorgées.",
+  "Valet": "🧊 <strong>MAÎTRE DU FREEZE</strong><br>{joueur1}, jusqu'au prochain Valet, tu peux t'immobiliser à tout moment. Le dernier à s'en rendre compte et à t'imiter boit 2 gorgées.",
+  "Dame": "👀 <strong>DUEL DE REGARDS</strong><br>{joueur1}, choisis un adversaire. Yeux dans les yeux, le premier qui rit, sourit ou détourne le regard boit 3 gorgées.",
+  "Roi": "👑 <strong>LE ROI</strong><br>{joueur1}, invente une règle qui dure jusqu'à la fin de la partie, puis verse un peu de ta boisson dans le verre du milieu."
 };
+
+let kingCount = 0;
 
 function generatePalmierDeck() {
   const suits = ["♠️", "♥️", "♦️", "♣️"];
-  const values = Object.keys(dictPalmier);
-  let deck = [];
+  const deck = [];
   suits.forEach(suit => {
-    values.forEach(val => {
-      deck.push(`<strong>${val} ${suit}</strong><br><br>${dictPalmier[val]}`);
-    });
+    Object.keys(dictPalmier).forEach(val => deck.push({ palmier: true, val, suit }));
   });
   return deck;
 }
@@ -296,6 +296,127 @@ const questionsPicolo = [
 ];
 
 
+// ===== BANQUE DE QUESTIONS : PICOLO CROUSTILLANT (entre vieux potes) =====
+// Types : verite, duo, vote, tous, dilemme, virus (avec fin), jeu
+// {joueur1} {joueur2} {joueur3} = joueurs différents · {g} = 2 à 4 gorgées
+const questionsPicolo2 = [
+  // --- VÉRITÉ : tu réponds ou tu bois ---
+  { type: "verite", text: "{joueur1}, quelle a été ta toute première impression de {joueur2} ? Sois honnête ou bois {g} gorgées." },
+  { type: "verite", text: "{joueur1}, dis un truc que tu n'as jamais osé dire à quelqu'un de ce groupe. Sinon, 4 gorgées." },
+  { type: "verite", text: "{joueur1}, raconte ton pire râteau. Sinon, {g} gorgées." },
+  { type: "verite", text: "{joueur1}, à qui ici tu confierais un secret qui pourrait ruiner ta vie ? Et pourquoi pas aux autres ?" },
+  { type: "verite", text: "{joueur1}, c'est quoi ton plus gros regret de ces deux dernières années ? Réponds ou bois {g} gorgées." },
+  { type: "verite", text: "{joueur1}, si tu devais sortir avec quelqu'un de ce groupe, ce serait qui ? Réponds ou bois 5 gorgées." },
+  { type: "verite", text: "{joueur1}, raconte la fois où tu as été le plus jaloux ou jalouse de quelqu'un ici." },
+  { type: "verite", text: "{joueur1}, raconte ta plus grosse honte en soirée. Si le groupe trouve que ce n'est pas assez croustillant, tu bois 2 gorgées." },
+  { type: "verite", text: "{joueur1}, qu'est-ce que tu penses que les autres pensent vraiment de toi ?" },
+  { type: "verite", text: "{joueur1}, ton fantasme le plus inavouable. Réponds ou bois 5 gorgées." },
+  { type: "verite", text: "{joueur1}, as-tu déjà eu un crush sur quelqu'un ici ? Si oui, donne le prénom ou bois 4 gorgées pour le garder secret." },
+  { type: "verite", text: "{joueur1}, quel est le plus gros mensonge que tu aies raconté à quelqu'un de ce groupe ?" },
+  { type: "verite", text: "{joueur1}, qui ici a le plus changé depuis que vous vous connaissez ? En bien ou en mal ?" },
+  { type: "verite", text: "{joueur1}, de quoi tu as le plus peur pour ton avenir ?" },
+  { type: "verite", text: "{joueur1}, décris ta dernière fois au lit en 3 mots. Sinon, 4 gorgées." },
+  { type: "verite", text: "{joueur1}, raconte ton date le plus gênant." },
+  { type: "verite", text: "{joueur1}, quel est le message que tu regrettes le plus d'avoir envoyé ? Bonus : montre-le et distribue 3 gorgées." },
+  { type: "verite", text: "{joueur1}, montre tes 5 dernières recherches Google au groupe ou bois 4 gorgées." },
+  { type: "verite", text: "{joueur1}, as-tu déjà été tenté(e) de tromper quelqu'un ? Sois honnête ou bois {g} gorgées." },
+  { type: "verite", text: "{joueur1}, quelle qualité de {joueur2} tu envies le plus ?" },
+  { type: "verite", text: "{joueur1}, quel défaut de {joueur2} t'agace le plus ? {joueur2} n'a pas le droit de se défendre." },
+  { type: "verite", text: "{joueur1}, qui ici tu appellerais en premier si tu avais un gros problème à 3h du matin ?" },
+  { type: "verite", text: "{joueur1}, quelle est la chose la plus illégale que tu aies faite ? Réponds ou bois {g} gorgées." },
+  { type: "verite", text: "{joueur1}, ton body count, sans mentir. Ou 5 gorgées." },
+  { type: "verite", text: "{joueur1}, as-tu déjà été en froid avec quelqu'un ici sans qu'il ou elle le sache ?" },
+  { type: "verite", text: "{joueur1}, raconte ta première fois, version courte. Sinon, 4 gorgées." },
+  { type: "verite", text: "{joueur1}, à quel moment tu t'es senti(e) le plus seul(e) ces dernières années ?" },
+  { type: "verite", text: "{joueur1}, dis un truc que tu n'as jamais dit à tes parents." },
+  { type: "verite", text: "{joueur1}, sur quoi tu fais semblant d'aller bien en ce moment ? Tu peux boire 2 gorgées pour passer, personne ne te jugera." },
+  { type: "verite", text: "{joueur1}, quelle est la chose la plus bizarre qui t'excite ? Réponds ou bois 4 gorgées." },
+  { type: "verite", text: "{joueur1}, quel est le pire truc que tu aies fait à un ex ?" },
+  { type: "verite", text: "{joueur1}, qui ici a le plus de chances de réussir dans la vie selon toi ? Et le moins ?" },
+
+  // --- DUO ---
+  { type: "duo", text: "{joueur1} et {joueur2}, regardez-vous dans les yeux pendant 20 secondes sans rire. Le premier qui craque boit 3 gorgées." },
+  { type: "duo", text: "{joueur1}, dis à {joueur2} ce que tu apprécies le plus chez lui ou elle. Si c'est trop sincère, tout le monde boit." },
+  { type: "duo", text: "{joueur1} et {joueur2}, racontez chacun votre meilleur souvenir ensemble. Le groupe vote : le perdant boit 2 gorgées." },
+  { type: "duo", text: "{joueur1}, fais deviner à {joueur2} le prénom de ton dernier crush en 3 indices. S'il ou elle trouve, tu bois 3 gorgées. Sinon, c'est lui ou elle." },
+  { type: "duo", text: "{joueur1} et {joueur2}, échangez vos téléphones et lisez à voix haute le dernier message reçu par l'autre. Refus = 4 gorgées." },
+  { type: "duo", text: "{joueur1}, raconte une anecdote sur {joueur2} que le groupe ne connaît pas. {joueur2} peut mettre son veto, mais doit boire 3 gorgées pour ça." },
+  { type: "duo", text: "{joueur1} et {joueur2}, à trois, dites qui est la personne la plus attirante du groupe. Même prénom ? Cette personne boit 3. Sinon, vous buvez 2 chacun." },
+  { type: "duo", text: "{joueur2} pose la question de son choix à {joueur1}. Tu réponds ou tu bois 4 gorgées." },
+  { type: "duo", text: "{joueur1}, fais une déclaration d'amour à {joueur2} comme dans un film. Note sur 10 : en dessous de 6, tu bois {g} gorgées." },
+  { type: "duo", text: "{joueur1} et {joueur2}, qui de vous deux embrasse le mieux ? Mettez-vous d'accord ou buvez 3 gorgées chacun." },
+  { type: "duo", text: "{joueur2} dicte un message à envoyer au crush de {joueur1}. {joueur1}, envoie-le ou bois 5 gorgées." },
+  { type: "duo", text: "{joueur1}, {joueur2} et {joueur3} : chacun désigne en secret (sur les doigts à 3) lequel des deux autres il embrasserait. Ceux qui ne sont choisis par personne boivent 2 gorgées." },
+  { type: "duo", text: "{joueur1}, devine la réponse de {joueur2} : son plus gros complexe. Si tu as juste, {joueur2} boit 3. Sinon, c'est toi." },
+
+  // --- VOTE « QUI DE NOUS » ---
+  { type: "vote", text: "Qui de nous se mariera en premier ?" },
+  { type: "vote", text: "Qui de nous a le plus de chances de conclure ce week-end ?" },
+  { type: "vote", text: "Qui de nous a le pire goût en matière de mecs ou de meufs ?" },
+  { type: "vote", text: "Qui de nous est le plus nul pour garder un secret ?" },
+  { type: "vote", text: "Qui de nous trahirait le groupe en premier pour 10 000 € ?" },
+  { type: "vote", text: "Qui de nous a le plus gros body count ? (On ne vérifie pas.)" },
+  { type: "vote", text: "Qui de nous finira en prison ?" },
+  { type: "vote", text: "Qui de nous est secrètement le plus sensible ?" },
+  { type: "vote", text: "Qui de nous a déjà envoyé le plus de nudes ?" },
+  { type: "vote", text: "Qui de nous est le meilleur coup ? (Supposition, évidemment.)" },
+  { type: "vote", text: "Qui de nous est le plus faux-cul ? La personne désignée a 30 secondes pour se défendre, sinon elle boit 4 gorgées." },
+  { type: "vote", text: "Qui de nous sera encore là pour les autres dans 10 ans ? Cette personne distribue 5 gorgées." },
+  { type: "vote", text: "Qui de nous se cache le plus derrière l'humour ?" },
+  { type: "vote", text: "Qui de nous a le plus de dossiers sur les autres ?" },
+  { type: "vote", text: "Qui de nous a la vie sexuelle la plus mouvementée ?" },
+  { type: "vote", text: "Qui de nous serait le pire parent ?" },
+
+  // --- TOUS ---
+  { type: "tous", text: "Tous ceux qui ont déjà menti à quelqu'un de ce groupe pour éviter une soirée boivent {g} gorgées." },
+  { type: "tous", text: "Tous ceux qui ont déjà eu un crush sur quelqu'un ici boivent. Pas besoin de dire sur qui... pour l'instant." },
+  { type: "tous", text: "Tous ceux qui ont déjà parlé dans le dos de quelqu'un présent boivent. (Donc tout le monde.)" },
+  { type: "tous", text: "Tous ceux qui ont déjà embrassé quelqu'un de ce groupe boivent {g} gorgées." },
+  { type: "tous", text: "Tous ceux qui ont déjà pleuré à cause de quelqu'un ici boivent." },
+  { type: "tous", text: "Tous ceux qui ont déjà fait l'amour dans un lieu public boivent {g} gorgées." },
+  { type: "tous", text: "Tous ceux qui ont déjà simulé boivent." },
+  { type: "tous", text: "Tous ceux qui ont déjà stalké l'ex de leur ex boivent." },
+  { type: "tous", text: "Tous ceux qui ont déjà couché avec quelqu'un sans connaître son prénom boivent {g} gorgées." },
+  { type: "tous", text: "Tous ceux qui ont déjà envoyé des nudes boivent." },
+  { type: "tous", text: "Tous ceux qui ont déjà regretté un plan d'un soir boivent." },
+  { type: "tous", text: "Tous ceux qui ont une conversation que personne ici ne doit jamais lire boivent 2 gorgées." },
+  { type: "tous", text: "Tous ceux qui pensent être la personne préférée de quelqu'un ici boivent." },
+  { type: "tous", text: "Tous ceux qui ont déjà été amoureux sans jamais le dire boivent {g} gorgées." },
+  { type: "tous", text: "Tous ceux qui ont déjà fantasmé sur le ou la partenaire d'un pote boivent 3 gorgées." },
+
+  // --- DILEMME : tout le monde vote à main levée, la minorité boit ---
+  { type: "dilemme", text: "Tu préfères que tes parents lisent tous tes messages, ou que ton ex lise ton journal intime ?" },
+  { type: "dilemme", text: "Tu préfères ne plus jamais faire l'amour, ou ne plus jamais boire une goutte d'alcool ?" },
+  { type: "dilemme", text: "Tu préfères sortir avec le ou la meilleur(e) ami(e) de ton ex, ou avec l'ex de ton ou ta meilleur(e) ami(e) ?" },
+  { type: "dilemme", text: "Tu préfères connaître la date de ta mort, ou sa cause ?" },
+  { type: "dilemme", text: "Tu préfères que tout le monde ici sache ce que tu penses d'eux, ou ne jamais savoir ce qu'ils pensent de toi ?" },
+  { type: "dilemme", text: "Tu préfères un plan à trois avec deux inconnus, ou avec deux personnes de ce groupe ?" },
+  { type: "dilemme", text: "Tu préfères perdre tous tes souvenirs avec ce groupe, ou ne plus jamais les revoir ?" },
+  { type: "dilemme", text: "Tu préfères que ton historique internet soit projeté à ton mariage, ou que tes nudes fuitent au boulot ?" },
+
+  // --- VIRUS : règle temporaire, une carte de fin arrive quelques tours plus tard ---
+  { type: "virus", text: "{joueur1} est le maître des questions : quiconque répond à une de ses questions boit une gorgée.", end: "{joueur1} n'est plus le maître des questions." },
+  { type: "virus", text: "{joueur1} et {joueur2} sont mariés : quand l'un boit, l'autre boit aussi.", end: "Divorce prononcé : {joueur1} et {joueur2} ne sont plus liés." },
+  { type: "virus", text: "Interdiction de dire les prénoms. Chaque erreur = 1 gorgée.", end: "Vous pouvez de nouveau dire les prénoms." },
+  { type: "virus", text: "{joueur1} doit appeler tout le monde « mon cœur ». Chaque oubli = 2 gorgées.", end: "{joueur1} peut arrêter les « mon cœur »." },
+  { type: "virus", text: "Chaque fois que {joueur1} rit, {joueur2} boit une gorgée.", end: "{joueur2} n'a plus à boire quand {joueur1} rit. Soulagement." },
+  { type: "virus", text: "{joueur1} est le roi du silence : quand il ou elle pose un doigt sur sa bouche, tout le monde se tait. Le dernier à se taire boit 2 gorgées.", end: "{joueur1} n'est plus le roi du silence." },
+  { type: "virus", text: "{joueur1} doit tenir la main de {joueur2}. Lâcher = 3 gorgées.", end: "{joueur1} peut lâcher la main de {joueur2}." },
+  { type: "virus", text: "Interdiction de toucher son téléphone. Chaque infraction = 3 gorgées.", end: "Vous pouvez de nouveau toucher vos téléphones." },
+  { type: "virus", text: "{joueur1} doit finir chacune de ses phrases par « et c'est croustillant ». Oubli = 1 gorgée.", end: "{joueur1} peut arrêter le « et c'est croustillant »." },
+  { type: "virus", text: "{joueur1} est la conscience de {joueur2} : avant de répondre à une question, {joueur2} doit demander l'autorisation à {joueur1}. Oubli = 2 gorgées.", end: "{joueur2} est libre de ses choix, {joueur1} n'est plus sa conscience." },
+
+  // --- JEUX ---
+  { type: "jeu", text: "Thème : les ex des gens de ce groupe. {joueur1} commence. Le premier qui sèche ou répète boit 3 gorgées." },
+  { type: "jeu", text: "Thème : les endroits insolites où quelqu'un ici a (peut-être) fait l'amour. {joueur1} commence. Le premier qui sèche boit 3 gorgées." },
+  { type: "jeu", text: "{joueur1}, deux vérités et un mensonge sur ta vie amoureuse. Ceux qui se trompent boivent 2 gorgées." },
+  { type: "jeu", text: "Qui me connaît le mieux ? {joueur1} pense à un truc sur lui ou elle (pire peur, film préféré, pire date...). Chacun devine. Ceux qui se trompent boivent 1 gorgée. Si personne ne trouve, {joueur1} boit 3." },
+  { type: "jeu", text: "{joueur1}, tu as 45 secondes pour faire un compliment sincère à chaque personne. Chaque personne oubliée = 2 gorgées." },
+  { type: "jeu", text: "Pouce en l'air : tout le monde ferme les yeux sauf {joueur1}, qui pose une question croustillante (« Qui a déjà menti à quelqu'un ici ? »). Les concernés lèvent le pouce. {joueur1} annonce seulement combien de pouces : si c'est plus de la moitié, tout le monde boit." },
+  { type: "jeu", text: "Hot seat : pendant 1 minute, tout le monde peut poser n'importe quelle question à {joueur1}. Chaque question refusée = 1 gorgée." },
+  { type: "jeu", text: "{joueur1}, classe {joueur2}, {joueur3} et toi du plus au moins séduisant. Chaque personne vexée peut te faire boire 1 gorgée." }
+];
+
 // ===== BANQUE DE QUESTIONS : LE PREMIER QUI... =====
 // La récompense (gagnant / dernier) est ajoutée automatiquement à chaque carte.
 const questionsPremier = [
@@ -392,23 +513,20 @@ function showScreen(screenToShow) {
   screenToShow.classList.remove("hidden");
 }
 
-function formatQuestion(text) {
+function randomSips() {
+  return Math.floor(Math.random() * 3) + 2; // 2 à 4
+}
+
+// picks : liste de prénoms (déjà échappés) à utiliser. Permet de réutiliser
+// les mêmes joueurs sur la carte de fin d'un virus.
+function formatQuestion(text, picks = shuffle(players).map(escapeHTML)) {
   if (!text) return text;
-
-  // Gère à la fois les anciens marqueurs {joueur} et les nouveaux {player}
-  if (!text.includes("{joueur") && !text.includes("{player}")) return text;
-
-  const shuffledPlayers = shuffle(players).map(escapeHTML);
-  let result = text;
-
-  if (shuffledPlayers.length > 0) {
-    result = result.replace(/\{joueur1\}/g, `<strong>${shuffledPlayers[0]}</strong>`);
-    result = result.replace(/\{player\}/g, `<strong>${shuffledPlayers[0]}</strong>`);
-  }
-  if (shuffledPlayers.length > 1) {
-    result = result.replace(/\{joueur2\}/g, `<strong>${shuffledPlayers[1]}</strong>`);
-  }
-  return result;
+  const pick = i => `<strong>${picks[i % picks.length]}</strong>`;
+  return text
+    .replace(/\{joueur1\}|\{player\}/g, pick(0))
+    .replace(/\{joueur2\}/g, pick(1))
+    .replace(/\{joueur3\}/g, pick(2))
+    .replace(/\{g\}/g, () => randomSips());
 }
 
 // ===== GESTION DES JOUEURS =====
@@ -461,9 +579,13 @@ function startGame() {
   } else if (selectedMode === "palmier") {
     gameName.textContent = "Le Palmier 🃏";
     gameQueue = shuffle(generatePalmierDeck());
+    kingCount = 0;
   } else if (selectedMode === "picolo") {
     gameName.textContent = "Picolo 🦠";
     gameQueue = shuffle(questionsPicolo);
+  } else if (selectedMode === "picolo2") {
+    gameName.textContent = "Picolo Croustillant 🔥";
+    gameQueue = shuffle(questionsPicolo2);
   } else if (selectedMode === "premier") {
     gameName.textContent = "Le Premier Qui... 🏃";
     gameQueue = shuffle(questionsPremier);
@@ -494,27 +616,19 @@ function displayCurrentGame() {
   let currentItem = gameQueue[currentGameIndex];
   let rawText = "";
 
-  // Extraction du texte selon si c'est un String (Cercle, etc.) ou un Objet (Picolo)
+  let alreadyFormatted = false;
+
   if (!currentItem) {
     rawText = "Erreur de chargement. Bois pour oublier.";
   } else if (typeof currentItem === "string") {
     rawText = currentItem;
-  } else if (typeof currentItem === "object") {
-    rawText = currentItem.text;
-
-    // Ajout visuel selon le type de carte Picolo
-    const typePrefixes = {
-      "boit": "🍺 BOIT :",
-      "defi": "🎯 DÉFI :",
-      "regle": "📜 RÈGLE :",
-      "vote": "🗳️ VOTE :",
-      "tous": "🍻 TOUS :"
-    };
-    if (typePrefixes[currentItem.type]) {
-      rawText = `<span style="color: #f5a623;"><strong>${typePrefixes[currentItem.type]}</strong></span><br><br>${rawText}`;
-    }
+  } else if (currentItem.palmier) {
+    rawText = renderPalmierCard(currentItem);
+    alreadyFormatted = true;
+  } else {
+    rawText = renderPicoloCard(currentItem);
+    alreadyFormatted = true;
   }
-
   // Gorgées aléatoires du "Je n'ai jamais"
   if (gameSelector.value === "jnj") {
     const sips = Math.floor(Math.random() * 4) + 1;
@@ -536,7 +650,7 @@ function displayCurrentGame() {
     }
   }
 
-  gameText.innerHTML = formatQuestion(rawText);
+  gameText.innerHTML = alreadyFormatted ? rawText : formatQuestion(rawText);
 
   // Gestion du chrono pour les 7 secondes
   if (gameSelector.value === "7sec" && timerDisplay) {
@@ -578,6 +692,61 @@ function quitGame() {
   showScreen(screenHome);
 }
 
+
+// ===== RENDU DES CARTES PALMIER =====
+function renderPalmierCard(card) {
+  const picks = shuffle(players).map(escapeHTML);
+  if (card.val === "Roi") kingCount++;
+  const rule = card.val === "Roi" && kingCount === 4
+    ? "👑 <strong>LE DERNIER ROI</strong>"
+    : dictPalmier[card.val];
+  let html = `<span class="card-value">${card.val} ${card.suit}</span><br><br>${formatQuestion(rule, picks)}`;
+
+  if (card.val === "Roi") {
+    if (kingCount < 4) {
+      html += `<br><br><em>👑 Roi n°${kingCount} sur 4. Celui qui tire le 4e boit le verre du milieu.</em>`;
+    } else {
+      html += `<br><br><span class="alert">💀 C'EST LE 4e ROI !</span><br><em>${picks[0]}, tu bois le verre du milieu cul sec (ou en 3 fois si c'est une horreur).</em>`;
+    }
+  }
+  return html;
+}
+
+// ===== RENDU DES CARTES PICOLO (classique + croustillant) =====
+const picoloPrefixes = {
+  boit: "🍺 BOIT", defi: "🎯 DÉFI", regle: "📜 RÈGLE", vote: "🗳️ QUI DE NOUS ?", tous: "🍻 TOUT LE MONDE",
+  verite: "🤐 VÉRITÉ", duo: "👯 DUO", dilemme: "⚖️ TU PRÉFÈRES ?", virus: "🦠 VIRUS", jeu: "🎲 JEU", fin: "✅ FIN DU VIRUS", finRegle: "✅ FIN DE LA RÈGLE"
+};
+
+function renderPicoloCard(card) {
+  // Les cartes de fin sont déjà formatées au moment où le virus est tiré
+  if (card.type === "fin") return prefix(card.from === "regle" ? "finRegle" : "fin") + card.text;
+
+  const picks = shuffle(players).map(escapeHTML);
+  let text = formatQuestion(card.text, picks);
+
+  if (card.type === "vote" && !/boit|boire|distribue/.test(card.text)) {
+    text += `<br><br><em>À trois, tout le monde pointe quelqu'un. La personne la plus désignée boit ${randomSips()} gorgées.</em>`;
+  }
+  if (card.type === "dilemme") {
+    text += `<br><br><em>À trois : main levée = premier choix, main baissée = second. La minorité boit ${randomSips()} gorgées.</em>`;
+  }
+
+  // Virus (et règles du Picolo classique) : on programme une carte de fin dans 4 à 9 tours
+  if (card.type === "virus" || card.type === "regle") {
+    const endText = card.end
+      ? formatQuestion(card.end, picks)
+      : `« ${formatQuestion(card.text.replace(/^(Nouvelle règle|Règle spéciale|Règle)\s*:\s*/i, ""), picks)} » ne s'applique plus.`;
+    const pos = Math.min(currentGameIndex + 4 + Math.floor(Math.random() * 6), gameQueue.length);
+    gameQueue.splice(pos, 0, { type: "fin", from: card.type, text: endText });
+  }
+
+  return prefix(card.type) + text;
+
+  function prefix(type) {
+    return picoloPrefixes[type] ? `<span class="card-type">${picoloPrefixes[type]}</span><br><br>` : "";
+  }
+}
 
 // ===== TOP DÉPART (Le Premier Qui...) =====
 function topDepart() {

@@ -26,6 +26,8 @@
             <option value="7sec">Les 7 Secondes</option>
             <option value="palmier">Le Palmier</option>
             <option value="picolo">Picolo (Chaos absolu)</option>
+            <option value="premier">Le Premier Qui... (Course)</option>
+            <option value="undercover">Undercover (3 joueurs min.)</option>
         </select>
         <br>
         <button id="btn-start">🎮 Lancer la partie !</button>
@@ -42,9 +44,16 @@
     </div>
 
     <div id="game-actions">
+        <button id="btn-go" class="hidden">🚦 Top départ</button>
         <button id="btn-next">➡️ Suivant</button>
         <button id="btn-quit">🚪 Quitter</button>
     </div>
+</div>
+
+<div id="screen-undercover" class="hidden">
+    <h2>Undercover 🕵️</h2>
+    <div id="uc-card"></div>
+    <button id="btn-uc-quit">🚪 Quitter</button>
 </div>
 
 <div id="screen-end" class="hidden">

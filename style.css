@@ -155,3 +155,8 @@ button.btn-secondary { background-color: #444a66; color: #ffffff; }
 .uc-recap { list-style: none; text-align: left; margin: 10px auto 0; max-width: 320px; }
 .uc-recap li { padding: 6px 0; border-bottom: 1px solid #2a3558; }
 #btn-uc-quit { background-color: #ff4d4d; color: #ffffff; }
+
+/* ===== CARTES PICOLO / PALMIER ===== */
+.card-type { color: #f5a623; font-weight: bold; letter-spacing: 0.5px; }
+.card-value { font-size: 2rem; font-weight: bold; color: #f5a623; }
+.alert { color: #ff4d4d; font-weight: bold; }

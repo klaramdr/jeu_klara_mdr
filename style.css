@@ -14,7 +14,7 @@ body {
   align-items: center;
 }
 
-#screen-home, #screen-game, #screen-end {
+#screen-home, #screen-game, #screen-end, #screen-undercover {
   text-align: center;
   padding: 40px 20px;
   max-width: 500px;
@@ -126,3 +126,32 @@ button:active { transform: scale(0.97); }
   50% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
+/* ===== LE PREMIER QUI... ===== */
+.reward { color: #f5a623; font-size: 1.05rem; }
+#btn-go { background-color: #4dff88; color: #1a1a2e; }
+#btn-go:hover { background-color: #33d670; }
+
+/* ===== UNDERCOVER ===== */
+#uc-card {
+  background-color: #16213e;
+  border: 2px solid #f5a623;
+  border-radius: 16px;
+  padding: 30px 20px;
+  margin: 20px auto;
+}
+.uc-text p { font-size: 1.2rem; line-height: 1.5; margin-bottom: 12px; }
+.uc-text .uc-big { font-size: 2.2rem; font-weight: bold; color: #f5a623; word-break: break-word; }
+.uc-text .uc-small { font-size: 0.95rem; color: #aaaaaa; }
+.uc-buttons { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+.uc-buttons button { min-width: 45%; padding: 14px 18px; }
+button.uc-vote { background-color: #16213e; color: #ffffff; border: 2px solid #ff4d4d; }
+button.uc-vote:hover { background-color: #ff4d4d; }
+button.btn-secondary { background-color: #444a66; color: #ffffff; }
+#uc-guess {
+  padding: 12px 15px; font-size: 1.1rem; width: 80%;
+  border: 2px solid #f5a623; border-radius: 8px;
+  background-color: #1a1a2e; color: #fff; outline: none; text-align: center;
+}
+.uc-recap { list-style: none; text-align: left; margin: 10px auto 0; max-width: 320px; }
+.uc-recap li { padding: 6px 0; border-bottom: 1px solid #2a3558; }
+#btn-uc-quit { background-color: #ff4d4d; color: #ffffff; }
